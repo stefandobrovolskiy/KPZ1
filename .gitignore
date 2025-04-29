@@ -1,0 +1,15 @@
+ECHO is on.
+
+venv/
+my_env/
+
+db.sqlite3
+
+__pycare__/
+*.pyc
+
+*.log
+*.pid
+
+.vscode/
+.idea/
