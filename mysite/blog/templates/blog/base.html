@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <title>{% block title %}Blog{% endblock %}</title>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мій блог{% endblock %}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link type="text/css" href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/fotorama.css' %}" rel="stylesheet">
+    <script src="{% static 'js/fotorama.js' %}"></script>
     {% block head %}{% endblock %}
 </head>
 <body>
     <header>
         <h1>Мій блог</h1>
-        <nav>
-            <a href="{% url 'home' %}">Головна</a> |
-            <a href="{% url 'articles-list' %}">Всі статті</a>
-        </nav>
+        <!-- Можна додати навігацію -->
     </header>
-    {% block content %}
-    {% endblock %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; {{ year|default:2024 }}</p>
+    </footer>
+    <script src="{% static 'js/jquery.js' %}" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}" crossorigin="anonymous"></script>
 </body>
 </html>

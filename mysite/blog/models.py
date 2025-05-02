@@ -15,12 +15,15 @@ class Category(models.Model):
         return self.category
 
     def get_absolute_url(self):
-        return reverse('articles-list') + f'?category={self.slug}'
+        try:
+            return reverse('articles-category-list', kwargs={'slug': self.slug})
+        except:
+            return "/"
 
 class Article(models.Model):
     title = models.CharField(max_length=250, help_text='Максимум 250 символів')
     description = models.TextField(blank=True, verbose_name='Опис')
-    pub_date = models.DateTimeField(default=timezone.now, verbose_name='Дата публікації')
+    pub_date = models.DateField(default=timezone.now, verbose_name='Дата публікації')
     slug = models.SlugField(unique_for_date='pub_date')
     main_page = models.BooleanField(default=True, help_text='Показувати на головній сторінці', verbose_name='Головна')
     category = models.ForeignKey(Category, related_name='articles', blank=True, null=True, 
@@ -29,23 +32,22 @@ class Article(models.Model):
 
     class Meta:
         ordering = ['-pub_date']
-        verbose_name = 'Публікація'
-        verbose_name_plural = 'Публікації'
+        verbose_name = 'Стаття'
+        verbose_name_plural = 'Статті'
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         try:
-            url = reverse('news-detail', kwargs={
-                'year': self.pub_date.strftime('%Y'),
-                'month': self.pub_date.strftime('%m'),
-                'day': self.pub_date.strftime('%d'),
+            return reverse('article-detail', kwargs={
+                'year': self.pub_date.year,
+                'month': self.pub_date.month,
+                'day': self.pub_date.day,
                 'slug': self.slug,
             })
         except:
-            url = "/"
-        return url
+            return "/"
 
 class ArticleImage(models.Model):
     article = models.ForeignKey(Article, verbose_name='Стаття', 

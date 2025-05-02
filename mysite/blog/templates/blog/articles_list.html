@@ -1,16 +1,24 @@
-{% extends 'blog/base.html' %}
-{% block title %}Список статей{% endblock %}
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Список публікацій{% endblock %}
 {% block content %}
-    <h1>Список статей</h1>
-    {% if items %}
-        {% for item in items %}
-            <div>
-                <a href="{{ item.get_absolute_url }}"><h4>{{ item.title }}</h4></a>
-                <h5>{{ item.pub_date|date:"j E Y" }}</h5>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>Статей немає</p>
-    {% endif %}
+{% spaceless %}
+    <h1>Публікації</h1>
+    <br/>
+    {% if category %}{{ category }}{% endif %}
+    {% for item in items %}
+    <div class="articles-row">
+        <a href="{{ item.get_absolute_url }}"><h4>{{ item.title }}</h4></a>
+        <h5>{{ item.pub_date|date:"j E Y"|safe|linebreaks }}</h5>
+        <p>{{ item.description|safe|escape|striptags|truncatewords_html:32 }}</p>
+        <div class="container-image">
+            {% if item.images.all %}
+            <img class="img" src="{{ item.images.all.0.image.url }}" alt="{{ item.title }}"/>
+            {% endif %}
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    {% endfor %}
     <a href="{% url 'home' %}"><h4>На головну</h4></a>
+{% endspaceless %}
 {% endblock %}
