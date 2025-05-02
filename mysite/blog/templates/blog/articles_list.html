@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+{% block title %}Список статей{% endblock %}
+{% block content %}
+    <h1>Список статей</h1>
+    {% if items %}
+        {% for item in items %}
+            <div>
+                <a href="{{ item.get_absolute_url }}"><h4>{{ item.title }}</h4></a>
+                <h5>{{ item.pub_date|date:"j E Y" }}</h5>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Статей немає</p>
+    {% endif %}
+    <a href="{% url 'home' %}"><h4>На головну</h4></a>
+{% endblock %}

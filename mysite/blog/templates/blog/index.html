@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Blog</title>
-</head>
-<body>
-    <h1>Welcome to My Blog</h1>
-    <p>This is the homepage of my Django blog project.</p>
-</body>
-</html>
+{% extends 'blog/base.html' %}
+{% block title %}Головна{% endblock %}
+{% block content %}
+    {% if categories %}
+        {% for item in categories %}
+            <div>
+                <a href="{{ item.get_absolute_url }}"><h4>{{ item.category }}</h4></a>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if articles %}
+        {% for item in articles %}
+            <div>
+                <a href="{{ item.get_absolute_url }}"><h4>{{ item.title }}</h4></a>
+                <h5>{{ item.pub_date|date:"j E Y" }}</h5>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'articles-list' %}"><h4>Всі публікації</h4></a>
+{% endblock %}

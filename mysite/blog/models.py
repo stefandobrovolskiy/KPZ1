@@ -14,6 +14,9 @@ class Category(models.Model):
     def __str__(self):
         return self.category
 
+    def get_absolute_url(self):
+        return reverse('articles-list') + f'?category={self.slug}'
+
 class Article(models.Model):
     title = models.CharField(max_length=250, help_text='Максимум 250 символів')
     description = models.TextField(blank=True, verbose_name='Опис')
@@ -23,26 +26,6 @@ class Article(models.Model):
     category = models.ForeignKey(Category, related_name='articles', blank=True, null=True, 
                                 verbose_name='Категорія', on_delete=models.CASCADE)
     objects = models.Manager()
-
-    class Meta:
-        ordering = ['-pub_date']
-        verbose_name = 'Стаття'
-        verbose_name_plural = 'Статті'
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        try:
-            url = reverse('news-detail', kwargs={
-                'year': self.pub_date.strftime('%Y'),
-                'month': self.pub_date.strftime('%m'),
-                'day': self.pub_date.strftime('%d'),
-                'slug': self.slug,
-            })
-        except:
-            url = "/"
-        return url
 
     class Meta:
         ordering = ['-pub_date']

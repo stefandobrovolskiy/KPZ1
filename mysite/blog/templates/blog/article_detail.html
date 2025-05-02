@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block title %}{{ item.title }}{% endblock %}
+{% block head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+{% endblock %}
+{% block content %}
+    <h1>{{ item.title }}</h1>
+    <h5>{{ item.pub_date|date:"j E Y" }}</h5>
+    <p>{{ item.description|safe }}</p>
+    <div class="fotorama">
+        {% for image in images %}
+            <img src="{{ image.image.url }}" alt="{{ image.description }}" data-caption="{{ image.description }}">
+        {% endfor %}
+    </div>
+    <a href="{% url 'articles-list' %}"><h4>До списку статей</h4></a>
+    <a href="{% url 'home' %}"><h4>На головну</h4></a>
+{% endblock %}
